@@ -17,9 +17,9 @@ let port
   /**
    * Check node version
    */
-  if (!semver.satisfies(process.versions.node, '=v18.14.0')) {
+  if (!semver.satisfies(process.versions.node, '=v18.16.0')) {
     console.log(
-      `Incorrect Node version ${process.versions.node}. It should be 18.14.0`
+      `Incorrect Node version ${process.versions.node}. It should be 18.16.0`
     )
     process.exit()
   }

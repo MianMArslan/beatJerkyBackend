@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'beatjerky-backend',
       script: './bin/www.mjs',
-      instances: max,
+      instances: 'max',
       exec_mode: 'cluster',
       max_memory_restart: '1024M',
       watch: false,
