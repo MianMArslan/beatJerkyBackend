@@ -4,7 +4,7 @@ const { songs } = db
 // Add a new song
 const addSong = async (req, res) => {
   try {
-    const { title, singer, year, descriptionOfSong, categories } = req.body
+    const { title, singer, year, descriptionOfSong, songCategoryID } = req.body
 
     // Create a new song record in the database
     const newSong = await songs.create({
@@ -13,11 +13,12 @@ const addSong = async (req, res) => {
       year,
       descriptionOfSong,
       fileURL: req.file.filename, // Store the filename in the fileURL attribute
-      categories
+      songCategoryID
     })
 
-    // Return the newly created song
-    res.status(201).json(newSong)
+     const status = 200
+      const message = "Song added successfully" 
+    res.status(200).success({ status,message })
   } catch (error) {
     // Handle any errors that occur during the process
     console.error('Failed to add song:', error)
