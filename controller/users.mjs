@@ -6,7 +6,11 @@ const { user, Sequelize } = db
 const Op = Sequelize.Op
 
 async function getUser(req, res) {
-  let users = await user.findAll({ where: { isDeleted: false } })
-  return res.success({ data: users })
+  try {
+    let users = await user.findAll({ where: { isAdmin: false } })
+    return res.success({ data: users })
+  } catch (error) {
+    return httpError(error.message)
+  }
 }
 export { getUser }

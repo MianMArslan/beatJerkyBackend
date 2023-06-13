@@ -54,14 +54,14 @@ let port
   if (!fs.existsSync(__dirname + '/../public/profile-images')) {
     fs.mkdirSync(__dirname + '/../public/profile-images')
   }
-  // if (!fs.existsSync(__dirname + '/../public/files')) {
-  //   fs.mkdirSync(__dirname + '/../public/files')
-  // }
+  if (!fs.existsSync(__dirname + '/../public/feeds')) {
+    fs.mkdirSync(__dirname + '/../public/feeds')
+  }
 
   port = normalizePort(
     process.env.NODE_ENV == 'development'
       ? process.env.PORT || '7001'
-      : process.env.PORT || '3000'
+      : process.env.PORT || '3001'
   )
   app.set('port', port)
 
