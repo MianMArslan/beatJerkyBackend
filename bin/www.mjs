@@ -61,13 +61,7 @@ let port
   port = normalizePort(
     process.env.NODE_ENV == 'development'
       ? process.env.PORT || '7001'
-<<<<<<< Updated upstream
       : process.env.PORT || '3001'
-=======
-      : process.env.PORT || '3000'
-      ?process.env.PORT || '3001'
-      : process.env.PORT || '3002'
->>>>>>> Stashed changes
   )
   app.set('port', port)
 

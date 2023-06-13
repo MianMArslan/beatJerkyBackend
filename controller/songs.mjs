@@ -16,9 +16,9 @@ const addSong = async (req, res) => {
       songCategoryID
     })
 
-     const status = 200
-      const message = "Song added successfully" 
-    res.status(200).success({ status,message })
+    const status = 200
+    const message = 'Song added successfully'
+    res.status(200).success({ status, message })
   } catch (error) {
     // Handle any errors that occur during the process
     console.error('Failed to add song:', error)
