@@ -3,8 +3,7 @@ module.exports = {
     {
       name: 'beatjerky-backend',
       script: './bin/www.mjs',
-      instances: 'max',
-      exec_mode: 'cluster',
+      exec_mode: 'fork',
       max_memory_restart: '1024M',
       watch: false,
       log_date_format: 'YYYY-MM-DD HH:mm Z',
