@@ -7,7 +7,6 @@ function setRoutes(app) {
   app.use('/users', user)
   app.use('/category', category)
   app.use('/songs', songs)
-
 }
 
 export default setRoutes

@@ -11,6 +11,11 @@ const { sequelize } = db
 import debug from 'debug'
 debug('back-end:server')
 import semver from 'semver'
+import fs from 'fs'
+import { dirname } from 'path'
+import { fileURLToPath } from 'url'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
 let server
 let port
 ;(async () => {
@@ -26,10 +31,9 @@ let port
   /**
    * Check db connection
    */
-  console.log("🚀🚀🚀🚀🚀 ~ file: www.mjs:31 ~ ; ~ authenticate:")
   try {
     await sequelize.authenticate()
-    
+
     console.log('Connection has been established successfully.')
   } catch (error) {
     console.error('Unable to connect to the database:', error)
@@ -38,13 +42,18 @@ let port
   /**
    * Get port from environment and store in Express.
    */
-
-  // if (!fs.existsSync(__dirname + '/../public/uploads')) {
-  //   fs.mkdirSync(__dirname + '/../public/uploads')
-  // }
-  // if (!fs.existsSync(__dirname + '/../logs')) {
-  //   fs.mkdirSync(__dirname + '/../logs')
-  // }
+  if (!fs.existsSync(__dirname + '/../public')) {
+    fs.mkdirSync(__dirname + '/../public')
+  }
+  if (!fs.existsSync(__dirname + '/../public/cover-photos')) {
+    fs.mkdirSync(__dirname + '/../public/cover-photos')
+  }
+  if (!fs.existsSync(__dirname + '/../public/songs')) {
+    fs.mkdirSync(__dirname + '/../public/songs')
+  }
+  if (!fs.existsSync(__dirname + '/../public/profile-images')) {
+    fs.mkdirSync(__dirname + '/../public/profile-images')
+  }
   // if (!fs.existsSync(__dirname + '/../public/files')) {
   //   fs.mkdirSync(__dirname + '/../public/files')
   // }
@@ -52,7 +61,7 @@ let port
   port = normalizePort(
     process.env.NODE_ENV == 'development'
       ? process.env.PORT || '7001'
-      : process.env.PORT || '3001'
+      : process.env.PORT || '3000'
   )
   app.set('port', port)
 
