@@ -133,6 +133,5 @@ async function onListening() {
   var addr = server.address()
   var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port
   debug('Listening on ' + bind)
-  // await sequelize.sync({ force: true })
   console.log('Listening on ' + bind)
 }

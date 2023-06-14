@@ -24,10 +24,7 @@ const imageFileFilter = function (req, file, callback) {
   // accept image only
 
   if (!file.originalname.match(/\.(jpg|jpeg|png|JPG|JPEG|PNG)$/)) {
-    return callback(
-      httpError('Only (jpg|jpeg|png) files formats are allowed!', 422),
-      false
-    )
+    return callback(null, false)
   }
   callback(null, true)
 }

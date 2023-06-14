@@ -3,10 +3,12 @@ import db from '../models/index.js'
 const { userFeed, user } = db
 
 async function createUserFeed(req, res) {
-  const { path } = req.file
-  const { description } = req.body
-  const { id } = req.session.dataValues
   try {
+    if (!req?.file)
+      throw httpError('Only (jpg|jpeg|png) files formats are allowed!')
+    const { path } = req.file
+    const { description } = req.body
+    const { id } = req.session.dataValues
     let record = await userFeed.create({
       userId: id,
       imageUrl: path,
@@ -19,8 +21,8 @@ async function createUserFeed(req, res) {
 }
 
 async function getUserFeed(req, res) {
-  const { id } = req.session.dataValues
   try {
+    const { id } = req.session.dataValues
     let record = await userFeed.findAll({
       where: { isDeleted: false, userId: id }
     })
@@ -31,8 +33,8 @@ async function getUserFeed(req, res) {
 }
 
 async function getAllUserFeed(req, res) {
-  const { limit, offset } = req.query
   try {
+    const { limit, offset } = req.query
     let object = {
       where: { isDeleted: false },
       order: [['createdAt', 'DESC']],

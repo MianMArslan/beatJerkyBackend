@@ -15,7 +15,7 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date()
       },
-        {
+      {
         firstName: 'Mian',
         lastName: 'Arslan',
         email: 'mianarslan@gmail.com',
@@ -25,7 +25,7 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date()
       },
-        {
+      {
         firstName: 'Ramzan',
         lastName: 'Ch',
         email: 'ramzanch@gmail.com',

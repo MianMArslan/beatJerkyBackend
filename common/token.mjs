@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 import db from '../models/index.js'
 import jwt_decode from 'jwt-decode'
+import { httpError } from './httpError.mjs'
 
 const { user } = db
 function getAuthToken(email) {
@@ -50,6 +51,7 @@ async function authorizeAdmin(req, res, next) {
 
 async function authorizeUser(req, res, next) {
   const { accessToken } = req.cookies
+  console.log(accessToken)
   if (!accessToken) return httpError('No access Token is provided')
   try {
     jwt.verify(accessToken, process.env.SECRET)

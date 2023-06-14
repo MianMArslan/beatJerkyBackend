@@ -63,7 +63,7 @@ const updateSong = async (req, res) => {
 const deleteSong = async (req, res) => {
   try {
     const { id } = req.params
- 
+
     // Find the song by ID
     const song = await songs.findByPk(id)
 
@@ -89,7 +89,7 @@ const getAllSongs = async (req, res) => {
   try {
     // Retrieve all songs from the database
     const allSongs = await songs.findAll()
- 
+
     // Return the list of songs
     // res.json(allSongs);
     res.status(200).json({ songs: allSongs })
@@ -102,9 +102,8 @@ const getAllSongs = async (req, res) => {
 
 const addCoverImage = async (req, res) => {
   try {
-   
     const { id } = req.params
- 
+
     // Find the song by ID
     const song = await songs.findByPk(id)
 

@@ -3,7 +3,6 @@ import multer from 'multer'
 // Set up the multer storage and upload configuration
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-  
     cb(null, 'public/cover-photos') // Specify the destination folder for storing the song files
   },
   filename: function (req, file, cb) {
