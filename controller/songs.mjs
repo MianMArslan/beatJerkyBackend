@@ -63,8 +63,7 @@ const updateSong = async (req, res) => {
 const deleteSong = async (req, res) => {
   try {
     const { id } = req.params
-    console.log('🚀 ~ file: songs.mjs:65 ~ deleteSong ~ id:', id)
-
+ 
     // Find the song by ID
     const song = await songs.findByPk(id)
 
@@ -90,8 +89,7 @@ const getAllSongs = async (req, res) => {
   try {
     // Retrieve all songs from the database
     const allSongs = await songs.findAll()
-    console.log('🚀 ~ file: songs.mjs:91 ~ getAllSongs ~ allSongs:', allSongs)
-
+ 
     // Return the list of songs
     // res.json(allSongs);
     res.status(200).json({ songs: allSongs })
@@ -104,13 +102,9 @@ const getAllSongs = async (req, res) => {
 
 const addCoverImage = async (req, res) => {
   try {
-    console.log(
-      '🚀 ~ file: songs.mjs:120 ~ addCoverImage ~ req.file:',
-      req.file
-    )
+   
     const { id } = req.params
-    console.log('🚀 ~ file: songs.mjs:110 ~ addCoverImage ~ id:', id)
-
+ 
     // Find the song by ID
     const song = await songs.findByPk(id)
 

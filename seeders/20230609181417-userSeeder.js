@@ -14,6 +14,26 @@ module.exports = {
         isDeleted: false,
         createdAt: new Date(),
         updatedAt: new Date()
+      },
+        {
+        firstName: 'Mian',
+        lastName: 'Arslan',
+        email: 'mianarslan@gmail.com',
+        password: await bcrypt.hash('123', process.env.SALT), // Hash the password using bcrypt
+        isAdmin: false,
+        isDeleted: false,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+        {
+        firstName: 'Ramzan',
+        lastName: 'Ch',
+        email: 'ramzanch@gmail.com',
+        password: await bcrypt.hash('123', process.env.SALT), // Hash the password using bcrypt
+        isAdmin: false,
+        isDeleted: false,
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
       // Add more user entries as needed
     ]

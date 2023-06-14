@@ -8,7 +8,7 @@ function setRoutes(app) {
   app.use('/auth', auth)
   app.use('/users', user)
   app.use('/category', category)
-  app.use('/songs', songs)
+  app.use('/song', songs)
   app.use('/feed', feed)
 }
 
