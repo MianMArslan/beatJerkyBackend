@@ -8,8 +8,8 @@ import {
   getUserFeed
 } from '../controller/userFeeds.mjs'
 
-router.get('/', authorizeUser, getUserFeed)
-router.get('/all', authorizeUser, getAllUserFeed)
-router.post('/', authorizeUser, uploadFeed.single('feed'), createUserFeed)
+router.get('/', getUserFeed)
+router.get('/all', getAllUserFeed)
+router.post('/', uploadFeed.single('feed'), createUserFeed)
 
 export default router

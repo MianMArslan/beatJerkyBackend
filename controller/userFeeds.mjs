@@ -7,10 +7,10 @@ async function createUserFeed(req, res) {
     if (!req?.file)
       throw httpError('Only (jpg|jpeg|png) files formats are allowed!')
     const { path } = req.file
-    const { description } = req.body
-    const { id } = req.session.dataValues
+    const { description, userId } = req.body
+    if (!userId) throw httpError('userId is required!')
     let record = await userFeed.create({
-      userId: id,
+      userId,
       imageUrl: path,
       description
     })
@@ -22,9 +22,11 @@ async function createUserFeed(req, res) {
 
 async function getUserFeed(req, res) {
   try {
-    const { id } = req.session.dataValues
+    const { userId } = req.query
+
+    if (!userId) throw httpError('userId is required!')
     let record = await userFeed.findAll({
-      where: { isDeleted: false, userId: id }
+      where: { isDeleted: false, userId }
     })
     return res.success({ data: record })
   } catch (error) {
