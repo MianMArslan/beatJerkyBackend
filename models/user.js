@@ -18,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
       email: { type: DataTypes.STRING, unique: true, allowNull: false },
       password: DataTypes.STRING,
       isAdmin: { type: DataTypes.BOOLEAN, defaultValue: false },
-      isDeleted: { type: DataTypes.BOOLEAN, defaultValue: false }
+      isDeleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+      profileImg: { type: DataTypes.STRING }
     },
     {
       sequelize,
