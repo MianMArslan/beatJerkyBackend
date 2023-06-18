@@ -57,6 +57,9 @@ let port
   if (!fs.existsSync(__dirname + '/../public/feeds')) {
     fs.mkdirSync(__dirname + '/../public/feeds')
   }
+  if (!fs.existsSync(__dirname + '/../public/profile')) {
+    fs.mkdirSync(__dirname + '/../public/profile')
+  }
 
   port = normalizePort(
     process.env.NODE_ENV == 'development'

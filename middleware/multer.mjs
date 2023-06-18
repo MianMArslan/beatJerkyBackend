@@ -20,6 +20,14 @@ const feedStorage = multer.diskStorage({
     callback(null, file.fieldname + '_' + Date.now() + '_' + file.originalname)
   }
 })
+const profileStorage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, 'public/profile')
+  },
+  filename: (req, file, callback) => {
+    callback(null, file.fieldname + '_' + Date.now() + '_' + file.originalname)
+  }
+})
 const imageFileFilter = function (req, file, callback) {
   // accept image only
 
@@ -33,7 +41,10 @@ const uploadFeed = multer({
   storage: feedStorage,
   fileFilter: imageFileFilter
 })
-
+const uploadProfile = multer({
+  storage: profileStorage,
+  fileFilter: imageFileFilter
+})
 const upload = multer({ storage: storage })
 
-export { upload, uploadFeed }
+export { upload, uploadFeed, uploadProfile }
