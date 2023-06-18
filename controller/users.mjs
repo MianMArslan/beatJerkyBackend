@@ -13,4 +13,41 @@ async function getUser(req, res) {
     return httpError(error.message)
   }
 }
-export { getUser }
+
+// Assuming you have imported the necessary dependencies and initialized the database models
+
+const updateIsDeleted = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { isDeleted } = req.body;
+    console.log("🚀🚀🚀🚀🚀 ~ file: users.mjs:23 ~ updateIsDeleted ~ isDeleted:", req.body)
+
+    // Find the record by ID
+    const record = await user.findByPk(id);
+
+    if (!record) {
+      // Return an error if the record is not found
+      return res.status(404).json({ error: 'Record not found' });
+    }
+
+    // Update the isDeleted key with the new value
+    record.isDeleted = isDeleted;
+
+    // Save the updated record to the database
+    await record.save();
+
+    // Return the updated record
+    const status = 200
+      const message = 'Updated User Status'
+      return res.status(200).success({ status, message })
+  } catch (error) {
+    // Handle any errors that occur during the process
+    console.error('Failed to update isDeleted:', error);
+    res.status(500).json({ error: 'Failed to update isDeleted' });
+  }
+};
+
+ 
+
+ 
+export { getUser,updateIsDeleted }
