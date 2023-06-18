@@ -1,17 +1,17 @@
 import { httpError } from '../common/httpError.mjs'
 import db from '../models/index.js'
-const { userFeed, user } = db
+const { userVideo, user } = db
 
-async function createUserFeed(req, res) {
+async function createVideo(req, res) {
   try {
     if (!req?.file)
       throw httpError('Only (jpg|jpeg|png) files formats are allowed!')
     const { path } = req.file
     const { description, userId } = req.body
     if (!userId) throw httpError('userId is required!')
-    let record = await userFeed.create({
+    let record = await userVideo.create({
       userId,
-      imageUrl: path,
+      videoUrl: path,
       description
     })
     return res.success({ data: record })
@@ -19,13 +19,12 @@ async function createUserFeed(req, res) {
     throw httpError(error.message)
   }
 }
-
-async function getUserFeed(req, res) {
+async function getUserVideo(req, res) {
   try {
     const { userId } = req.query
 
     if (!userId) throw httpError('userId is required!')
-    let record = await userFeed.findAll({
+    let record = await userVideo.findAll({
       where: { isDeleted: false, userId }
     })
     return res.success({ data: record })
@@ -34,7 +33,7 @@ async function getUserFeed(req, res) {
   }
 }
 
-async function getAllUserFeed(req, res) {
+async function getAllUserVideo(req, res) {
   try {
     const { limit, offset } = req.query
     let object = {
@@ -44,24 +43,24 @@ async function getAllUserFeed(req, res) {
     }
     if (limit) object.limit = Number(limit)
     if (offset || offset == 0) object.offset = Number(offset)
-    let record = await userFeed.findAll(object)
+    let record = await userVideo.findAll(object)
     return res.success({ data: record })
   } catch (error) {
     return httpError(error.message)
   }
 }
-async function deleteUserFeed(req, res) {
+async function deleteUserVideo(req, res) {
   try {
-    const { feedId, userId } = req.query
+    const { videoId, userId } = req.query
     if (!userId) throw httpError('userId is required!')
 
-    let record = await userFeed.update(
+    let record = await userVideo.update(
       { isDeleted: true },
-      { where: { userId, id: feedId } }
+      { where: { userId, id: videoId } }
     )
     return res.success({ data: record })
   } catch (error) {
     return httpError(error.message)
   }
 }
-export { createUserFeed, getAllUserFeed, getUserFeed, deleteUserFeed }
+export { createVideo, getAllUserVideo, getUserVideo, deleteUserVideo }

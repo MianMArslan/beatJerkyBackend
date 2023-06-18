@@ -28,6 +28,14 @@ const profileStorage = multer.diskStorage({
     callback(null, file.fieldname + '_' + Date.now() + '_' + file.originalname)
   }
 })
+const videoStorage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, 'public/video')
+  },
+  filename: (req, file, callback) => {
+    callback(null, file.fieldname + '_' + Date.now() + '_' + file.originalname)
+  }
+})
 const imageFileFilter = function (req, file, callback) {
   // accept image only
 
@@ -36,7 +44,12 @@ const imageFileFilter = function (req, file, callback) {
   }
   callback(null, true)
 }
-
+const videoFileFilter = function (req, file, callback) {
+  if (!file.originalname.match(/\.(mp4|MPEG-4|mkv)$/)) {
+    return callback(null, false)
+  }
+  callback(null, true)
+}
 const uploadFeed = multer({
   storage: feedStorage,
   fileFilter: imageFileFilter
@@ -45,6 +58,12 @@ const uploadProfile = multer({
   storage: profileStorage,
   fileFilter: imageFileFilter
 })
+const uploadVideo = multer({
+  storage: videoStorage,
+  limits: 40000000,
+  fileFilter: videoFileFilter
+})
+
 const upload = multer({ storage: storage })
 
-export { upload, uploadFeed, uploadProfile }
+export { upload, uploadFeed, uploadProfile, uploadVideo }
