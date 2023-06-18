@@ -1,6 +1,6 @@
 import db from '../models/index.js'
 import { httpError } from '../common/httpError.mjs'
-
+import { deleteFileFromDisk } from '../common/deleteFileFromDisk.mjs'
 const { user, Sequelize } = db
 const Op = Sequelize.Op
 
@@ -56,6 +56,9 @@ async function updateUserProfile(req, res) {
     const { path } = req.file
     const { userId } = req.body
     if (!userId) throw httpError('userId is required!')
+    let img = await user.findOne({ where: { id: userId } })
+    console.log(img)
+    if (img.profileImg) await deleteFileFromDisk(img.profileImg)
     let users = await user.update(
       { profileImg: path },
       { where: { id: userId } }
