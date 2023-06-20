@@ -7,7 +7,8 @@ async function createFollower(req, res) {
     const { followerId, userId } = req.body
     if (!userId) throw httpError('userId is required!')
     if (!followerId) throw httpError('followerId is required!')
-
+    let data = await follower.findOne({ where: { userId, followerId } })
+    if (data) throw httpError('Already followed!')
     let record = await follower.create({
       userId,
       followerId
