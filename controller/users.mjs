@@ -68,4 +68,18 @@ async function updateUserProfile(req, res) {
     return httpError(error.message)
   }
 }
-export { getUser, updateUserProfile, updateIsDeleted }
+
+async function getCurrentUser(req, res) {
+  try {
+    const { userId } = req.query
+    if (!userId) throw httpError('userId is required!')
+    let users = await user.findAll({
+      where: { id: userId },
+      attributes: ['firstName', 'lastName', 'profileImg', 'email']
+    })
+    return res.success({ data: users })
+  } catch (error) {
+    return httpError(error.message)
+  }
+}
+export { getUser, updateUserProfile, updateIsDeleted, getCurrentUser }
