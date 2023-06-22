@@ -1,6 +1,6 @@
 import { httpError } from '../common/httpError.mjs'
 import db from '../models/index.js'
-const { userFeed, user } = db
+const { userFeed, user, feedLike, feedComment } = db
 
 async function createUserFeed(req, res) {
   try {
@@ -23,10 +23,11 @@ async function createUserFeed(req, res) {
 async function getUserFeed(req, res) {
   try {
     const { userId } = req.query
-
+    let value = []
     if (!userId) throw httpError('userId is required!')
     let record = await userFeed.findAll({
-      where: { isDeleted: false, userId }
+      where: { isDeleted: false, userId },
+      include: [{ model: feedLike }, { model: feedComment }]
     })
     return res.success({ data: record })
   } catch (error) {
@@ -40,7 +41,11 @@ async function getAllUserFeed(req, res) {
     let object = {
       where: { isDeleted: false },
       order: [['createdAt', 'DESC']],
-      include: [{ model: user, attributes: ['firstName', 'lastName'] }]
+      include: [
+        { model: user, attributes: ['firstName', 'lastName'] },
+        { model: feedLike },
+        { model: feedComment }
+      ]
     }
     if (limit) object.limit = Number(limit)
     if (offset || offset == 0) object.offset = Number(offset)
