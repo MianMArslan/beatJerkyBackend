@@ -1,7 +1,7 @@
 // Import any required dependencies
 
 import db from '../models/index.js'
-const { categories } = db
+const { categories ,songs } = db
 // Function to delete a specific categories
 const deleteSpecificCategory = async (req, res) => {
   try {
@@ -78,9 +78,27 @@ const getAllCategories = async (req, res) => {
   }
 }
 
+
+const getAllCategoriesWithSongs = async (req, res) => {
+  console.log("🚀 ~ file: category.mjs:83 ~ getAllCategoriesWithSongs ~ req:")
+  
+  try {
+    
+    const data = await categories.findAll({ include: songs});
+    console.log("🚀 ~ file: category.mjs:88 ~ getAllCategoriesWithSongs ~ data:", data)
+
+    res.status(200).json({ data })
+  } catch (error) {
+    console.log("🚀 ~ file: category.mjs:92 ~ getAllCategoriesWithSongs ~ error:", error)
+    res.status(500).json({ error: 'Failed to get categories' })
+  }
+}
+
+
 export {
   deleteSpecificCategory,
   createCategory,
   updateSpecificCategory,
-  getAllCategories
+  getAllCategories,
+  getAllCategoriesWithSongs
 }

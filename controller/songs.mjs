@@ -1,3 +1,4 @@
+import { Op } from 'sequelize'
 import db from '../models/index.js'
 const { songs } = db
 
@@ -30,7 +31,7 @@ const addSong = async (req, res) => {
 const updateSong = async (req, res) => {
   try {
     const { id } = req.params
-    const { title, singer, year, descriptionOfSong, songCategoryID } = req.body
+    const { title, singer, year, descriptionOfSong} = req.body
 
     // Find the song by ID
     const song = await songs.findByPk(id)
@@ -45,7 +46,7 @@ const updateSong = async (req, res) => {
     song.singer = singer
     song.year = year
     song.descriptionOfSong = descriptionOfSong
-    song.songCategoryID = songCategoryID
+    // song.songCategoryID = songCategoryID
 
     // Save the updated song to the database
     await song.save()
@@ -86,9 +87,10 @@ const deleteSong = async (req, res) => {
 
 // Get all songs
 const getAllSongs = async (req, res) => {
+  const searchQuery = req.query.search || '';  
   try {
     // Retrieve all songs from the database
-    const allSongs = await songs.findAll()
+    const allSongs = await songs.findAll({where: { title: {[Op.like]: `%${searchQuery}%` } }})
 
     // Return the list of songs
     // res.json(allSongs);

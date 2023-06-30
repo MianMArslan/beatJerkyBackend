@@ -5,10 +5,14 @@ import {
   deleteSpecificCategory,
   createCategory,
   updateSpecificCategory,
-  getAllCategories
+  getAllCategories,
+  getAllCategoriesWithSongs
 } from '../controller/category.mjs'
 
 router.get('/', verifyAccessToken, getAllCategories)
+router.get('/getAllCategoriesWithSongs',  getAllCategoriesWithSongs)
+
+
 router.put('/:categoryId', verifyAccessToken, updateSpecificCategory)
 router.post('/createCategory', verifyAccessToken, createCategory)
 
