@@ -74,27 +74,16 @@ const getAllCategories = async (req, res) => {
 
     res.status(200).json({ data })
   } catch (error) {
-    res.status(500).json({ error: 'Failed to get categories' })
+    res.status(400).json({ error: 'Failed to get categories' })
   }
 }
 
 const getAllCategoriesWithSongs = async (req, res) => {
-  console.log('🚀 ~ file: category.mjs:83 ~ getAllCategoriesWithSongs ~ req:')
-
   try {
     const data = await categories.findAll({ include: songs })
-    console.log(
-      '🚀 ~ file: category.mjs:88 ~ getAllCategoriesWithSongs ~ data:',
-      data
-    )
-
     res.status(200).json({ data })
   } catch (error) {
-    console.log(
-      '🚀 ~ file: category.mjs:92 ~ getAllCategoriesWithSongs ~ error:',
-      error
-    )
-    res.status(500).json({ error: 'Failed to get categories' })
+    res.status(400).json({ error: 'Failed to get categories' })
   }
 }
 
