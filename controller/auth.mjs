@@ -119,41 +119,40 @@ async function resetPassword(req, res) {
   }
 }
 
-
 const changePassword = async (req, res) => {
-  const { currentPassword, newPassword } = req.body;
-   const userId = req.user.userId;  
+  const { currentPassword, newPassword } = req.body
+  const userId = req.user.userId
 
   try {
     // Find the user by ID
-     const currentUser = await user.findOne({ where: { id: userId } });
-     if (!currentUser) {
-      return res.status(404).json({ message: 'currentUser not found' });
+    const currentUser = await user.findOne({ where: { id: userId } })
+    if (!currentUser) {
+      return res.status(404).json({ message: 'currentUser not found' })
     }
 
     // Verify the current password
-    const isMatch = await bcrypt.compare(currentPassword, currentUser.password);
+    const isMatch = await bcrypt.compare(currentPassword, currentUser.password)
     if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid current password' });
+      return res.status(401).json({ message: 'Invalid current password' })
     }
- 
+
     // Hash the new password
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
- 
+    const hashedPassword = await bcrypt.hash(newPassword, 10)
+
     // Update the currentUser's password
-const a =await user.update(
+    const a = await user.update(
       { password: hashedPassword },
       { where: { id: userId } }
     )
     // Generate a new JWT token with updated user data
-   const   userData = {
+    const userData = {
       userId: req.user.userId,
       firstName: req.user.firstName,
       lastName: req.user.lastName,
       email: req.user.email,
-      admin: req.user.isAdmin,
+      admin: req.user.isAdmin
     }
-        const token = await accessToken(userData)
+    const token = await accessToken(userData)
     res.cookie('accessToken', token)
 
     return res.success({
@@ -161,11 +160,11 @@ const a =await user.update(
       message: 'Successfully Change Password!',
       data: userData
     })
- 
-    
   } catch (error) {
-    res.status(500).json({ message: 'An error occurred while changing the password', error });
+    res
+      .status(500)
+      .json({ message: 'An error occurred while changing the password', error })
   }
-};
+}
 
-export { signup, login, forgotPassword, resetPassword,changePassword }
+export { signup, login, forgotPassword, resetPassword, changePassword }

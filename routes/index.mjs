@@ -9,14 +9,14 @@ import feedLike from './feedLike.mjs'
 import feedComment from './feedComment.mjs'
 import musicStyle from './musicStyle.mjs'
 import musicStyleSongs from './musicStyleSongs.mjs'
-
+import videoLike from './videoLike.mjs'
 
 function setRoutes(app) {
   app.use('/auth', auth)
   app.use('/users', user)
   app.use('/category', category)
-    app.use('/musicStyle', musicStyle)
-
+  app.use('/musicStyle', musicStyle)
+  app.use('/videoLike', videoLike)
   app.use('/song', songs)
   app.use('/feed', feed)
   app.use('/video', video)
@@ -24,8 +24,6 @@ function setRoutes(app) {
   app.use('/feedLike', feedLike)
   app.use('/feedComment', feedComment)
   app.use('/musicStyleSongs', musicStyleSongs)
-
-   
 }
 
 export default setRoutes

@@ -5,10 +5,12 @@ const { user, Sequelize } = db
 const Op = Sequelize.Op
 
 async function getUser(req, res) {
-    const searchQuery = req.query.search || '';  
+  const searchQuery = req.query.search || ''
 
   try {
-    let users = await user.findAll({ where: { isAdmin: false,lastName: {[Op.like]: `%${searchQuery}%` } } })
+    let users = await user.findAll({
+      where: { isAdmin: false, lastName: { [Op.like]: `%${searchQuery}%` } }
+    })
     return res.success({ data: users })
   } catch (error) {
     return httpError(error.message)

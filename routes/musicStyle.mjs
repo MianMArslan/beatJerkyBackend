@@ -10,12 +10,10 @@ import {
 } from '../controller/musicStyle.mjs'
 
 router.get('/', verifyAccessToken, getAllMusicStyle)
-router.get('/getAllMusicStylesWithSongs',  getAllMusicStyleWithSongs)
-
+router.get('/getAllMusicStylesWithSongs', getAllMusicStyleWithSongs)
 
 router.put('/:MusicStyleId', verifyAccessToken, updateSpecificMusicStyle)
 router.post('/createMusicStyle', verifyAccessToken, createMusicStyle)
 
 router.delete('/:musicStyleId', verifyAccessToken, deleteSpecificMusicStyle)
 export default router
-

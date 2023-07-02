@@ -31,7 +31,7 @@ const addSong = async (req, res) => {
 const updateSong = async (req, res) => {
   try {
     const { id } = req.params
-    const { title, singer, year, descriptionOfSong} = req.body
+    const { title, singer, year, descriptionOfSong } = req.body
 
     // Find the song by ID
     const song = await MusicStyleSongs.findByPk(id)
@@ -87,10 +87,12 @@ const deleteSong = async (req, res) => {
 
 // Get all MusicStyleSongs
 const getAllSongs = async (req, res) => {
-  const searchQuery = req.query.search || '';  
+  const searchQuery = req.query.search || ''
   try {
     // Retrieve all MusicStyleSongs from the database
-    const allSongs = await MusicStyleSongs.findAll({where: { title: {[Op.like]: `%${searchQuery}%` } }})
+    const allSongs = await MusicStyleSongs.findAll({
+      where: { title: { [Op.like]: `%${searchQuery}%` } }
+    })
 
     // Return the list of MusicStyleSongs
     // res.json(allSongs);

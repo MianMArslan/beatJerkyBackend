@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+'use strict'
+const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class musicStyle extends Model {
     /**
@@ -11,16 +9,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-            this.hasMany(models.songs, { foreignKey: 'songCategoryID'})
-
+      this.hasMany(models.songs, { foreignKey: 'songCategoryID' })
     }
   }
-  musicStyle.init({
-    musicStyleName: DataTypes.STRING,
-    musicStyleDescription: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'musicStyle',
-  });
-  return musicStyle;
-};
+  musicStyle.init(
+    {
+      musicStyleName: DataTypes.STRING,
+      musicStyleDescription: DataTypes.STRING
+    },
+    {
+      sequelize,
+      modelName: 'musicStyle'
+    }
+  )
+  return musicStyle
+}

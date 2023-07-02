@@ -10,8 +10,7 @@ import {
 } from '../controller/category.mjs'
 
 router.get('/', verifyAccessToken, getAllCategories)
-router.get('/getAllCategoriesWithSongs',  getAllCategoriesWithSongs)
-
+router.get('/getAllCategoriesWithSongs', getAllCategoriesWithSongs)
 
 router.put('/:categoryId', verifyAccessToken, updateSpecificCategory)
 router.post('/createCategory', verifyAccessToken, createCategory)
