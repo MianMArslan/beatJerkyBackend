@@ -10,6 +10,7 @@ import feedComment from './feedComment.mjs'
 import musicStyle from './musicStyle.mjs'
 import musicStyleSongs from './musicStyleSongs.mjs'
 import videoLike from './videoLike.mjs'
+import videoComment from './videoComment.mjs'
 
 function setRoutes(app) {
   app.use('/auth', auth)
@@ -24,6 +25,7 @@ function setRoutes(app) {
   app.use('/feedLike', feedLike)
   app.use('/feedComment', feedComment)
   app.use('/musicStyleSongs', musicStyleSongs)
+  app.use('/videoComment', videoComment)
 }
 
 export default setRoutes

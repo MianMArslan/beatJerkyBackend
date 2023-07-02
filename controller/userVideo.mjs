@@ -1,6 +1,6 @@
 import { httpError } from '../common/httpError.mjs'
 import db from '../models/index.js'
-const { userVideo, user } = db
+const { userVideo, user, videoLike, videoComment } = db
 
 async function createVideo(req, res) {
   try {
@@ -25,7 +25,8 @@ async function getUserVideo(req, res) {
 
     if (!userId) throw httpError('userId is required!')
     let record = await userVideo.findAll({
-      where: { isDeleted: false, userId }
+      where: { isDeleted: false, userId },
+      include: [{ model: videoLike }, { model: videoComment }]
     })
     return res.success({ data: record })
   } catch (error) {
@@ -39,7 +40,11 @@ async function getAllUserVideo(req, res) {
     let object = {
       where: { isDeleted: false },
       order: [['createdAt', 'DESC']],
-      include: [{ model: user, attributes: ['firstName', 'lastName'] }]
+      include: [
+        { model: user, attributes: ['firstName', 'lastName'] },
+        { model: videoLike },
+        { model: videoComment }
+      ]
     }
     if (limit) object.limit = Number(limit)
     if (offset || offset == 0) object.offset = Number(offset)
