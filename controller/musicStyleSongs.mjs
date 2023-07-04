@@ -130,5 +130,25 @@ const addCoverImage = async (req, res) => {
     res.status(500).json({ error: 'Failed to add cover image' })
   }
 }
+const getAllMusicStylesCategories = async (req, res) => {
+  try {
+    const { categoryId } = req.query
+    if (!categoryId) throw httpError('categoryId is required!')
 
-export { addSong, updateSong, deleteSong, getAllSongs, addCoverImage }
+    const allSongs = await MusicStyleSongs.findAll({
+      songCategoryID: categoryId
+    })
+    res.status(200).success({ data: allSongs })
+  } catch (error) {
+    res.status(400).fail({ error: 'Failed to get songs' })
+  }
+}
+
+export {
+  addSong,
+  updateSong,
+  deleteSong,
+  getAllSongs,
+  addCoverImage,
+  getAllMusicStylesCategories
+}

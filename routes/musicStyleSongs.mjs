@@ -8,12 +8,14 @@ import {
   updateSong,
   deleteSong,
   getAllSongs,
-  addCoverImage
+  addCoverImage,
+  getAllMusicStylesCategories
 } from '../controller/musicStyleSongs.mjs'
 import { upload } from '../middleware/multer.mjs'
 import { musicStyleCoverPhotoUploadMulter } from '../middleware/musicStyleCoverPhotoUploadMulter.mjs'
 
 router.get('/', verifyAccessToken, getAllSongs)
+router.get('/all', getAllMusicStylesCategories)
 router.put('/:id', verifyAccessToken, updateSong)
 router.post('/', verifyAccessToken, upload.single('file'), addSong)
 router.post(

@@ -95,11 +95,19 @@ const getAllMusicStyleWithSongs = async (req, res) => {
     res.status(500).json({ error: 'Failed to get musicStyle' })
   }
 }
-
+const getAllMusicStyleFromUser = async (req, res) => {
+  try {
+    const data = await musicStyle.findAll()
+    res.status(200).success({ data })
+  } catch (error) {
+    res.status(400).fail({ error })
+  }
+}
 export {
   deleteSpecificMusicStyle,
   createMusicStyle,
   updateSpecificMusicStyle,
   getAllMusicStyle,
-  getAllMusicStyleWithSongs
+  getAllMusicStyleWithSongs,
+  getAllMusicStyleFromUser
 }
