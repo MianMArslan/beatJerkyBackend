@@ -137,7 +137,7 @@ const changePassword = async (req, res) => {
     }
 
     // Hash the new password
-    const hashedPassword = await bcrypt.hash(newPassword, 10)
+    const hashedPassword = await bcrypt.hash(newPassword, process.env.SALT)
 
     // Update the currentUser's password
     const a = await user.update(
