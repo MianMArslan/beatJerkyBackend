@@ -87,7 +87,7 @@ async function forgotPassword(req, res) {
   const __dirname = path.resolve()
   const template = `${__dirname}/views/template.ejs`
   let html = await ejs.renderFile(template, {
-    token: `http://localhost:3000/resetPassword?token=${token}`,
+    token: `http://beatjerky.com/resetPassword?token=${token}`,
     name: email,
     user: 'We receive your request to Reset Password.',
     header: 'Trouble signing in?',
