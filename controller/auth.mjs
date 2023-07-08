@@ -63,6 +63,12 @@ async function login(req, res) {
 
     const token = await accessToken(userData)
     res.cookie('accessToken', token)
+    await user.update(
+      { lastOnline: new Date(), isOnline: true },
+      {
+        where: { email: email, password: hashPassword, isAdmin }
+      }
+    )
 
     return res.success({
       status: 200,

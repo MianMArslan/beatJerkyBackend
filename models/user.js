@@ -19,7 +19,9 @@ module.exports = (sequelize, DataTypes) => {
       password: DataTypes.STRING,
       isAdmin: { type: DataTypes.BOOLEAN, defaultValue: false },
       isDeleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-      profileImg: { type: DataTypes.STRING }
+      profileImg: { type: DataTypes.STRING },
+      isOnline: { type: DataTypes.BOOLEAN, defaultValue: false },
+      lastOnline: { type: DataTypes.DATE, defaultValue: new Date() }
     },
     {
       sequelize,

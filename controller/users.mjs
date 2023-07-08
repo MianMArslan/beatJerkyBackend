@@ -5,40 +5,39 @@ const { user, Sequelize } = db
 const Op = Sequelize.Op
 
 async function getUser(req, res) {
-  const searchQuery = req.query.search || '';
+  const searchQuery = req.query.search || ''
 
   try {
-    let users;
+    let users
     if (searchQuery.includes(' ')) {
-      const [firstName, lastName] = searchQuery.split(' ');
+      const [firstName, lastName] = searchQuery.split(' ')
 
       users = await user.findAll({
         where: {
           isAdmin: false,
           [Op.or]: [
             { firstName: { [Op.like]: `%${firstName}%` } },
-            { lastName: { [Op.like]: `%${lastName}%` } },
-          ],
-        },
-      });
+            { lastName: { [Op.like]: `%${lastName}%` } }
+          ]
+        }
+      })
     } else {
       users = await user.findAll({
         where: {
           isAdmin: false,
           [Op.or]: [
             { firstName: { [Op.like]: `%${searchQuery}%` } },
-            { lastName: { [Op.like]: `%${searchQuery}%` } },
-          ],
-        },
-      });
+            { lastName: { [Op.like]: `%${searchQuery}%` } }
+          ]
+        }
+      })
     }
 
-    return res.success({ data: users });
+    return res.success({ data: users })
   } catch (error) {
-    return httpError(error.message);
+    return httpError(error.message)
   }
 }
-
 
 // Assuming you have imported the necessary dependencies and initialized the database models
 
