@@ -172,5 +172,26 @@ const changePassword = async (req, res) => {
       .json({ message: 'An error occurred while changing the password', error })
   }
 }
+async function logout(req, res) {
+  const { userId } = req.body
+  if (!userId) throw httpError('userId is required!')
+  try {
+    res.clearCookie('accessToken')
 
-export { signup, login, forgotPassword, resetPassword, changePassword }
+    await user.update(
+      { isOnline: false },
+      {
+        where: { id: userId }
+      }
+    )
+
+    return res.success({
+      status: 200,
+      message: 'Successfully logout!',
+      data: userData
+    })
+  } catch (error) {
+    return res.error({ error })
+  }
+}
+export { signup, login, forgotPassword, resetPassword, changePassword, logout }
