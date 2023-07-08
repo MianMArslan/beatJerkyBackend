@@ -8,13 +8,23 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.hasOne(models.user, {
+        foreignKey: 'id',
+        sourceKey: 'senderId',
+        as: 'sender'
+      })
+      this.hasOne(models.user, {
+        foreignKey: 'id',
+        sourceKey: 'receiverId',
+        as: 'receiver'
+      })
     }
   }
   message.init(
     {
       senderId: DataTypes.INTEGER,
       receiverId: DataTypes.INTEGER,
+      conversationId: DataTypes.INTEGER,
       message: DataTypes.TEXT
     },
     {

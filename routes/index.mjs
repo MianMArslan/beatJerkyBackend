@@ -11,7 +11,7 @@ import musicStyle from './musicStyle.mjs'
 import musicStyleSongs from './musicStyleSongs.mjs'
 import videoLike from './videoLike.mjs'
 import videoComment from './videoComment.mjs'
-
+import message from './message.mjs'
 function setRoutes(app) {
   app.use('/auth', auth)
   app.use('/users', user)
@@ -26,6 +26,7 @@ function setRoutes(app) {
   app.use('/feedComment', feedComment)
   app.use('/musicStyleSongs', musicStyleSongs)
   app.use('/videoComment', videoComment)
+  app.use('/message', message)
 }
 
 export default setRoutes

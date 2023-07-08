@@ -2,24 +2,15 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('messages', {
+    await queryInterface.createTable('conversations', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      senderId: {
-        type: Sequelize.INTEGER
-      },
-      receiverId: {
-        type: Sequelize.INTEGER
-      },
-      conversationId: {
-        type: Sequelize.INTEGER
-      },
-      message: {
-        type: Sequelize.TEXT
+      isDeleted: {
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,
@@ -32,6 +23,6 @@ module.exports = {
     })
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('messages')
+    await queryInterface.dropTable('conversations')
   }
 }
