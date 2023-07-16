@@ -13,7 +13,7 @@ const addSong = async (req, res) => {
       singer,
       year,
       descriptionOfSong,
-      fileURL: req.file.filename, // Store the filename in the fileURL attribute
+      fileURL: req?.file?.path, // Store the filename in the fileURL attribute
       songCategoryID
     })
 
