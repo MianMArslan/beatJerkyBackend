@@ -24,10 +24,6 @@ const deleteSpecificCategory = async (req, res) => {
 const createCategory = async (req, res) => {
   try {
     const { categoryName, categoryDescription } = req.body
-    console.log(
-      '🚀 ~ file: category.mjs:26 ~ createCategory ~ req.body:',
-      req.body
-    )
 
     // Logic to create a new categories with the provided data
     await categories.create({

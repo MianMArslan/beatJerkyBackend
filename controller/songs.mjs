@@ -117,7 +117,7 @@ const addCoverImage = async (req, res) => {
     }
 
     // Update the song with the cover image filename
-    song.coverImageURL = req.file.filename
+    song.coverImageURL = req.file.path
 
     // Save the updated song to the database
     await song.save()
