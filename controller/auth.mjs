@@ -82,25 +82,30 @@ async function login(req, res) {
 
 async function forgotPassword(req, res) {
   const { email } = req.body
-  const token = getToken(email)
-  const to = `${email}`
-  const __dirname = path.resolve()
-  const template = `${__dirname}/views/template.ejs`
-  let html = await ejs.renderFile(template, {
-    token: `http://beatjerky.com/resetPassword?token=${token}`,
-    name: email,
-    user: 'We receive your request to Reset Password.',
-    header: 'Trouble signing in?',
-    buttonText: `Reset Password`,
-    footer: `You received this email because you requested to create account. If you did not,please contact`
-  })
-  try {
-    await sendEmail(to, 'Reset Password', html)
-    return res.success({
-      message: 'Kindly check your email!'
+  const verify = await user.findOne({ where: { email } })
+  if (!verify) {
+    return httpError('Email is not exist in system!')
+  } else {
+    const token = getToken(email)
+    const to = `${email}`
+    const __dirname = path.resolve()
+    const template = `${__dirname}/views/template.ejs`
+    let html = await ejs.renderFile(template, {
+      token: `http://beatjerky.com/resetPassword?token=${token}`,
+      name: email,
+      user: 'We receive your request to Reset Password.',
+      header: 'Trouble signing in?',
+      buttonText: `Reset Password`,
+      footer: `You received this email because you requested to create account. If you did not,please contact`
     })
-  } catch (err) {
-    return res.error({ error: err })
+    try {
+      await sendEmail(to, 'Reset Password', html)
+      return res.success({
+        message: 'Kindly check your email!'
+      })
+    } catch (err) {
+      return res.error({ error: err })
+    }
   }
 }
 
