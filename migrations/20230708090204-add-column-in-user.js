@@ -10,8 +10,8 @@ module.exports = {
     })
     queryInterface.addColumn('users', 'lastOnline', {
       type: Sequelize.DATE,
-      allowNull: false,
-      defaultValue: false
+      allowNull: true,
+      defaultValue: null
     })
   },
 

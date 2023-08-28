@@ -28,6 +28,22 @@ const profileStorage = multer.diskStorage({
     callback(null, file.fieldname + '_' + Date.now() + '_' + file.originalname)
   }
 })
+const storeImage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, 'public/storeImage')
+  },
+  filename: (req, file, callback) => {
+    callback(null, file.fieldname + '_' + Date.now() + '_' + file.originalname)
+  }
+})
+const productImages = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, 'public/productImages')
+  },
+  filename: (req, file, callback) => {
+    callback(null, file.fieldname + '_' + Date.now() + '_' + file.originalname)
+  }
+})
 const videoStorage = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, 'public/video')
@@ -63,7 +79,21 @@ const uploadVideo = multer({
   limits: 40000000,
   fileFilter: videoFileFilter
 })
-
+const uploadStoreImage = multer({
+  storage: storeImage,
+  fileFilter: imageFileFilter
+})
+const uploadProductImages = multer({
+  storage: productImages,
+  fileFilter: imageFileFilter
+})
 const upload = multer({ storage: storage })
 
-export { upload, uploadFeed, uploadProfile, uploadVideo }
+export {
+  upload,
+  uploadFeed,
+  uploadProfile,
+  uploadVideo,
+  uploadStoreImage,
+  uploadProductImages
+}

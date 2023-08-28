@@ -12,6 +12,9 @@ import musicStyleSongs from './musicStyleSongs.mjs'
 import videoLike from './videoLike.mjs'
 import videoComment from './videoComment.mjs'
 import message from './message.mjs'
+import storeCategory from './storeCategory.mjs'
+import stores from './stores.mjs'
+import products from './products.mjs'
 function setRoutes(app) {
   app.use('/auth', auth)
   app.use('/users', user)
@@ -27,6 +30,9 @@ function setRoutes(app) {
   app.use('/musicStyleSongs', musicStyleSongs)
   app.use('/videoComment', videoComment)
   app.use('/message', message)
+  app.use('/storeCategory', storeCategory)
+  app.use('/stores', stores)
+  app.use('/products', products)
 }
 
 export default setRoutes
