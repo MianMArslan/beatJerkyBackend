@@ -1,18 +1,20 @@
 import { httpError } from '../common/httpError.mjs'
 import db from '../models/index.js'
-const { userFeed, user, feedLike, feedComment } = db
+const { userFeed, user, feedLike, feedComment, stores } = db
 
 async function createUserFeed(req, res) {
   try {
     if (!req?.file)
       throw httpError('Only (jpg|jpeg|png) files formats are allowed!')
     const { path } = req.file
-    const { description, userId } = req.body
+    const { description, userId, storeId } = req.body
+
     if (!userId) throw httpError('userId is required!')
     let record = await userFeed.create({
       userId,
       imageUrl: path,
-      description
+      description,
+      storeId
     })
     return res.success({ data: record })
   } catch (error) {
@@ -35,6 +37,27 @@ async function getUserFeed(req, res) {
   }
 }
 
+// async function getAllUserFeed(req, res) {
+//   try {
+//     const { limit, offset } = req.query
+//     let object = {
+//       where: { isDeleted: false },
+//       order: [['createdAt', 'DESC']],
+//       include: [
+//         { model: user, attributes: ['firstName', 'lastName'] },
+//         { model: feedLike },
+//         { model: feedComment }
+//       ]
+//     }
+//     if (limit) object.limit = Number(limit)
+//     if (offset || offset == 0) object.offset = Number(offset)
+//     let record = await userFeed.findAll(object)
+//     return res.success({ data: record })
+//   } catch (error) {
+//     return httpError(error.message)
+//   }
+// }
+//above is the previous implementation
 async function getAllUserFeed(req, res) {
   try {
     const { limit, offset } = req.query
@@ -42,19 +65,32 @@ async function getAllUserFeed(req, res) {
       where: { isDeleted: false },
       order: [['createdAt', 'DESC']],
       include: [
-        { model: user, attributes: ['firstName', 'lastName'] },
+        {
+          model: user,
+          attributes: ['firstName', 'lastName']
+        },
         { model: feedLike },
         { model: feedComment }
       ]
     }
+
+    if (object.include && object.include.length > 0) {
+      object.include.push({
+        model: stores,
+        attributes: ['storeName', 'storeDescription'] // Replace with actual attributes
+      })
+    }
+
     if (limit) object.limit = Number(limit)
     if (offset || offset == 0) object.offset = Number(offset)
-    let record = await userFeed.findAll(object)
-    return res.success({ data: record })
+
+    let records = await userFeed.findAll(object)
+    return res.success({ data: records })
   } catch (error) {
     return httpError(error.message)
   }
 }
+
 async function deleteUserFeed(req, res) {
   try {
     const { feedId, userId } = req.query

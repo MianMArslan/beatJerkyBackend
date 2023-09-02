@@ -15,6 +15,7 @@ import message from './message.mjs'
 import storeCategory from './storeCategory.mjs'
 import stores from './stores.mjs'
 import products from './products.mjs'
+import adminChat from './adminChat.mjs'
 function setRoutes(app) {
   app.use('/auth', auth)
   app.use('/users', user)
@@ -33,6 +34,7 @@ function setRoutes(app) {
   app.use('/storeCategory', storeCategory)
   app.use('/stores', stores)
   app.use('/products', products)
+  app.use('/adminChat', adminChat)
 }
 
 export default setRoutes

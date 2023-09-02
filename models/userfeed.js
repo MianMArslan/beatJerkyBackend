@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      this.belongsTo(models.stores, { foreignKey: 'storeId' })
       this.hasOne(models.user, { foreignKey: 'id', sourceKey: 'userId' })
       this.hasMany(models.feedLike, { foreignKey: 'feedId', sourceKey: 'id' })
       this.hasMany(models.feedComment, {
@@ -21,7 +22,8 @@ module.exports = (sequelize, DataTypes) => {
       userId: DataTypes.INTEGER,
       description: DataTypes.STRING,
       imageUrl: DataTypes.STRING,
-      isDeleted: { type: DataTypes.BOOLEAN, defaultValue: false }
+      isDeleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+      storeId: DataTypes.INTEGER
     },
     {
       sequelize,
