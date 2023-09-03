@@ -5,12 +5,16 @@ import {
   createUserFeed,
   getAllUserFeed,
   getUserFeed,
-  deleteUserFeed
+  deleteUserFeed,
+  getStoreFeed,
+  deleteStoreFeed
 } from '../controller/userFeeds.mjs'
 
 router.get('/', getUserFeed)
 router.get('/all', getAllUserFeed)
+router.get('/storeFeed', getStoreFeed)
 router.post('/', uploadFeed.single('feed'), createUserFeed)
 router.delete('/', deleteUserFeed)
+router.delete('/storeFeed', deleteStoreFeed)
 
 export default router

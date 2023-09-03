@@ -36,6 +36,39 @@ async function getUserFeed(req, res) {
     return httpError(error.message)
   }
 }
+async function getStoreFeed(req, res) {
+  try {
+    const { storeId } = req.query
+    console.log(
+      '🚀 ~ file: userFeeds.mjs:42 ~ getStoreFeed ~ storeId:',
+      storeId
+    )
+    let value = []
+    if (!storeId) throw httpError('storeId is required!')
+    let records = await userFeed.findAll({
+      where: { isDeleted: false, storeId },
+      include: [{ model: feedLike }, { model: feedComment }]
+    })
+    return res.success({ data: records })
+  } catch (error) {
+    return httpError(error.message)
+  }
+}
+async function deleteStoreFeed(req, res) {
+  try {
+    const { storeId } = req.query
+    if (!storeId) throw httpError('storeId is required!')
+    const deletedCount = await userFeed.update(
+      { isDeleted: true },
+      { where: { storeId, isDeleted: false } }
+    )
+    return res.success({
+      message: `Deleted ${deletedCount} records for storeId ${storeId}`
+    })
+  } catch (error) {
+    return httpError(error.message)
+  }
+}
 
 // async function getAllUserFeed(req, res) {
 //   try {
@@ -105,4 +138,11 @@ async function deleteUserFeed(req, res) {
     return httpError(error.message)
   }
 }
-export { createUserFeed, getAllUserFeed, getUserFeed, deleteUserFeed }
+export {
+  createUserFeed,
+  getAllUserFeed,
+  getUserFeed,
+  deleteUserFeed,
+  getStoreFeed,
+  deleteStoreFeed
+}
