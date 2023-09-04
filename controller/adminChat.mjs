@@ -69,7 +69,7 @@ async function getAllMessages(req, res) {
       where: {
         [Op.or]: [{ senderId: userId }, { receiverId: userId }]
       },
-      order: [['createdAt', 'DESC']],
+      // order: [['createdAt', 'DESC']],
       include: [{ model: user, as: 'sender' }]
     })
 
