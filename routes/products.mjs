@@ -9,8 +9,8 @@ import {
 } from '../controller/products.mjs'
 import { uploadProductImages } from '../middleware/multer.mjs'
 
-router.get('/:storeId', verifyAccessToken, getAllProducts)
-router.put('/:id', verifyAccessToken, updateProduct)
+router.get('/:storeId', getAllProducts)
+router.put('/:id', updateProduct)
 
 const maxImageCount = 4
 
