@@ -10,8 +10,8 @@ import {
 } from '../controller/stores.mjs'
 import { uploadStoreImage } from '../middleware/multer.mjs'
 
-router.get('/', verifyAccessToken, getAllStores)
-router.put('/:id', verifyAccessToken, updateStore)
+router.get('/', getAllStores)
+router.put('/:id', updateStore)
 router.post(
   '/',
   verifyAccessToken,
