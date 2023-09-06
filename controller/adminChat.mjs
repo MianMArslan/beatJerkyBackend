@@ -1,7 +1,7 @@
 import { httpError } from '../common/httpError.mjs'
 import db from '../models/index.js'
 import { Op } from 'sequelize'
-const { adminChat, user, conversation } = db
+const { adminChat, user, stores } = db
 
 async function sendMessage(req, res) {
   try {
@@ -79,4 +79,80 @@ async function getAllMessages(req, res) {
     return httpError(error.message)
   }
 }
-export { sendMessage, getAllChatListForAdmin, getAllMessages }
+
+async function getStoresUserStartedChatWith(req, res) {
+  try {
+    const { userId } = req.query
+
+    const data = await adminChat.findAll({
+      attributes: ['storeId'],
+      where: {
+        [Op.or]: [{ senderId: userId }, { receiverId: userId }]
+      },
+      group: ['storeId'],
+      include: [
+        {
+          model: stores,
+          as: 'store',
+          attributes: ['id', 'storeName', 'storeImage']
+        }
+      ]
+    })
+
+    res.status(200).json({ data })
+  } catch (error) {
+    console.error(error)
+    return httpError(error.message)
+  }
+}
+
+async function getAllChatsForUserAndStore(req, res) {
+  try {
+    const { userId, storeId } = req.query
+    console.log(
+      '🚀 ~ file: adminChat.mjs:112 ~ getAllChatsForUserAndStore ~ storeId:',
+      storeId
+    )
+
+    const chats = await adminChat.findAll({
+      where: {
+        [Op.or]: [
+          { senderId: userId, storeId },
+          { receiverId: userId, storeId }
+        ]
+      },
+      include: [
+        {
+          model: user,
+          as: 'sender',
+          attributes: [
+            'id',
+            'firstName',
+            'lastName',
+            'email',
+            'isAdmin',
+            'isOnline',
+            'profileImg'
+          ]
+        },
+        {
+          model: stores,
+          as: 'store',
+          attributes: ['id', 'storeName', 'storeImage']
+        }
+      ]
+    })
+
+    res.status(200).json({ data: chats })
+  } catch (error) {
+    console.error(error)
+    return httpError(error.message)
+  }
+}
+export {
+  sendMessage,
+  getAllChatListForAdmin,
+  getAllMessages,
+  getStoresUserStartedChatWith,
+  getAllChatsForUserAndStore
+}

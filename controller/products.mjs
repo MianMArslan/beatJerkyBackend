@@ -99,8 +99,8 @@ const getAllProducts = async (req, res) => {
   try {
     const allProducts = await products.findAll({
       where: {
-        storeId: storeId,
-        productName: { [Op.like]: `%${searchQuery}%` }
+        storeId: storeId
+        // productName: { [Op.like]: `%${searchQuery}%` }
       }
     })
     console.log(

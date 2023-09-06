@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'senderId',
         as: 'sender'
       })
+      adminChat.belongsTo(models.stores, { foreignKey: 'storeId', as: 'store' })
       // define association here
     }
   }
