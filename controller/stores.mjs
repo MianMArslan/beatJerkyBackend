@@ -1,6 +1,30 @@
 import { Op } from 'sequelize'
 import db from '../models/index.js'
+import { deleteFileFromDisk } from '../common/deleteFileFromDisk.mjs'
 const { stores } = db
+
+const updateStoreImage = async (req, res) => {
+  try {
+    const { id } = req.params
+
+    const store = await stores.findByPk(id)
+
+    if (!store) {
+      return res.status(404).json({ error: 'Store not found' })
+    }
+    const previousImagePath = store.storeImage
+    if (previousImagePath) await deleteFileFromDisk(previousImagePath)
+    // Update the store properties
+    await store.update({
+      storeImage: req.file.path
+    })
+
+    res.json(store)
+  } catch (error) {
+    console.error('Failed to update store:', error)
+    res.status(500).json({ error: 'Failed to update store' })
+  }
+}
 
 const addStore = async (req, res) => {
   try {
@@ -25,20 +49,19 @@ const addStore = async (req, res) => {
 const updateStore = async (req, res) => {
   try {
     const { id } = req.params
-    const { storeName, storeDescription, storeCategoryId } = req.body
+    const { storeName, storeDescription } = req.body
 
     const store = await stores.findByPk(id)
 
     if (!store) {
-      return res.status(404).json({ error: 'store not found' })
+      return res.status(404).json({ error: 'Store not found' })
     }
 
-    store.storeName = storeName
-
-    store.storeCategoryId = storeCategoryId
-    store.storeDescription = storeDescription
-
-    await stores.save()
+    // Update the store properties
+    await store.update({
+      storeName,
+      storeDescription
+    })
 
     res.json(store)
   } catch (error) {
@@ -80,4 +103,4 @@ const getAllStores = async (req, res) => {
   }
 }
 
-export { addStore, updateStore, deleteStore, getAllStores }
+export { addStore, updateStore, deleteStore, getAllStores, updateStoreImage }

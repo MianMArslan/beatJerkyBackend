@@ -5,13 +5,20 @@ import {
   addStore,
   updateStore,
   deleteStore,
-  getAllStores
+  getAllStores,
+  updateStoreImage
   // addCoverImage
 } from '../controller/stores.mjs'
 import { uploadStoreImage } from '../middleware/multer.mjs'
 
 router.get('/', getAllStores)
 router.put('/:id', updateStore)
+router.post(
+  '/updateImage/:id',
+
+  uploadStoreImage.single('storeImage'),
+  updateStoreImage
+)
 router.post(
   '/',
   verifyAccessToken,

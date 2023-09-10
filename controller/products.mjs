@@ -39,29 +39,45 @@ const addProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-    const { id } = req.params
     const {
       productName,
       productDescription,
       productDiscount,
       productPrice,
-      storeId
+      storeId,
+      productId
     } = req.body
 
-    const product = await products.findByPk(id)
+    console.log(
+      '🚀 ~ file: products.mjs:50 ~ updateProduct ~   productName',
+      productDescription,
+      productDiscount,
+      productPrice,
+      storeId,
+      productId,
+      productName
+    )
 
-    if (!product) {
-      return res.status(404).json({ error: 'product not found' })
+    if (!productId || !storeId) {
+      return res
+        .status(400)
+        .json({ error: 'Both productId and storeId are required' })
+    }
+
+    const product = await products.findByPk(productId)
+
+    if (!product || product.storeId !== storeId) {
+      return res.status(404).json({
+        error: 'Product not found for the given storeId and productId'
+      })
     }
 
     product.productName = productName
-
     product.productDiscount = productDiscount
     product.productPrice = productPrice
+    product.productDescription = productDescription
 
-    product.storeId = storeId
-
-    await products.save()
+    await product.save()
 
     res.json(product)
   } catch (error) {
@@ -75,14 +91,19 @@ const deleteProduct = async (req, res) => {
     const { id } = req.params
 
     const product = await products.findByPk(id)
+    console.log(
+      '🚀 ~ file: products.mjs:94 ~ deleteProduct ~ product:',
+      product
+    )
 
     if (!product) {
-      return res.status(404).json({ error: 'product not found' })
+      return res.status(404).json({ error: 'Product not found' })
     }
 
-    await products.destroy()
+    // Call destroy on the product instance to delete it
+    await product.destroy()
 
-    res.json({ message: 'product deleted successfully' })
+    res.json({ message: 'Product deleted successfully' })
   } catch (error) {
     console.error('Failed to delete product:', error)
     res.status(500).json({ error: 'Failed to delete product' })
@@ -103,10 +124,6 @@ const getAllProducts = async (req, res) => {
         // productName: { [Op.like]: `%${searchQuery}%` }
       }
     })
-    console.log(
-      '🚀 ~ file: products.mjs:102 ~ getAllProducts ~ allProducts:',
-      allProducts
-    )
 
     res.status(200).json({ products: allProducts })
   } catch (error) {

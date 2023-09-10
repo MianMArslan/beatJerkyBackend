@@ -10,7 +10,7 @@ import {
 import { uploadProductImages } from '../middleware/multer.mjs'
 
 router.get('/:storeId', getAllProducts)
-router.put('/:id', updateProduct)
+router.put('/', updateProduct)
 
 const maxImageCount = 4
 

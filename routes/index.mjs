@@ -18,6 +18,7 @@ import stores from './stores.mjs'
 import products from './products.mjs'
 import adminChat from './adminChat.mjs'
 import storeProfile from './storeProfile.mjs'
+import checkout from './checkout.mjs'
 function setRoutes(app) {
   app.use('/auth', auth)
   app.use('/users', user)
@@ -39,6 +40,7 @@ function setRoutes(app) {
   app.use('/storeProfile', storeProfile)
   app.use('/products', products)
   app.use('/adminChat', adminChat)
+  app.use('/checkout', checkout)
 }
 
 export default setRoutes
