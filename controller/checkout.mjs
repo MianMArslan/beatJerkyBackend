@@ -45,5 +45,27 @@ const createCheckout = async (req, res) => {
     throw httpError(error.message)
   }
 }
+const updateOrderStatus = async (req, res) => {
+  const { orderStatus, orderId } = req.query
 
-export { getAllCheckouts, createCheckout }
+  try {
+    const result = await checkout.update(
+      {
+        orderStatus
+      },
+      {
+        where: {
+          OrderId: orderId
+        }
+      }
+    )
+
+    if (!res) throw httpError('Order not found')
+
+    return res.success({ data: result })
+  } catch (error) {
+    throw httpError(error.message)
+  }
+}
+
+export { getAllCheckouts, createCheckout, updateOrderStatus }
