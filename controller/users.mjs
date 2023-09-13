@@ -3,7 +3,18 @@ import { httpError } from '../common/httpError.mjs'
 import { deleteFileFromDisk } from '../common/deleteFileFromDisk.mjs'
 const { user, Sequelize } = db
 const Op = Sequelize.Op
-
+async function getAdminUser(req, res) {
+  try {
+    const response = await user.findAll({
+      where: {
+        isAdmin: true
+      }
+    })
+    return res.success({ data: response })
+  } catch (error) {
+    return httpError(error.message)
+  }
+}
 async function getUser(req, res) {
   const searchQuery = req.query.search || ''
 
@@ -108,4 +119,10 @@ async function getCurrentUser(req, res) {
     return httpError(error.message)
   }
 }
-export { getUser, updateUserProfile, updateIsDeleted, getCurrentUser }
+export {
+  getUser,
+  updateUserProfile,
+  updateIsDeleted,
+  getCurrentUser,
+  getAdminUser
+}
