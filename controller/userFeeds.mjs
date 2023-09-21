@@ -110,7 +110,7 @@ async function getAllUserFeed(req, res) {
     if (object.include && object.include.length > 0) {
       object.include.push({
         model: stores,
-        attributes: ['storeName', 'storeDescription'] // Replace with actual attributes
+        attributes: ['storeName', 'storeDescription', 'storeImage']
       })
     }
 
