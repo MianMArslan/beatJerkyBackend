@@ -41,7 +41,7 @@ async function getAllUserVideo(req, res) {
       where: { isDeleted: false },
       order: [['createdAt', 'DESC']],
       include: [
-        { model: user, attributes: ['firstName', 'lastName'] },
+        { model: user, attributes: ['firstName', 'lastName', 'profileImg'] },
         { model: videoLike },
         { model: videoComment }
       ]
