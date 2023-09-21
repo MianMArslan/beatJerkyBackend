@@ -100,7 +100,7 @@ async function getAllUserFeed(req, res) {
       include: [
         {
           model: user,
-          attributes: ['firstName', 'lastName']
+          attributes: ['firstName', 'lastName', 'profileImg']
         },
         { model: feedLike },
         { model: feedComment }
