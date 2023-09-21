@@ -39,10 +39,7 @@ async function getUserFeed(req, res) {
 async function getStoreFeed(req, res) {
   try {
     const { storeId } = req.query
-    console.log(
-      '🚀 ~ file: userFeeds.mjs:42 ~ getStoreFeed ~ storeId:',
-      storeId
-    )
+
     let value = []
     if (!storeId) throw httpError('storeId is required!')
     let records = await userFeed.findAll({
