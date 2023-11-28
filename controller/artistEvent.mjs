@@ -12,7 +12,8 @@ const createEvent = async (req, res) => {
     eventEndTime,
     artistProfileId,
     longitude,
-    latitude
+    latitude,
+    clientId
   } = req.body
 
   if (
@@ -21,7 +22,8 @@ const createEvent = async (req, res) => {
     !eventPlace ||
     !eventStartTime ||
     !eventEndTime ||
-    !artistProfileId
+    !artistProfileId ||
+    !clientId
   ) {
     throw httpError('Required fields are missing!')
   }
@@ -36,7 +38,8 @@ const createEvent = async (req, res) => {
       picturePath: req.file.path,
       longitude,
       latitude,
-      artistProfileId
+      artistProfileId,
+      clientId
     })
 
     return res.success({ data: newEvent })
@@ -64,6 +67,27 @@ const getEventById = async (req, res) => {
   try {
     const event = await Event.findAll({
       where: { artistProfileId }
+    })
+
+    if (event) {
+      return res.success({ data: event })
+    } else {
+      throw httpError('Event not found', 404)
+    }
+  } catch (error) {
+    throw httpError(error.message)
+  }
+}
+const getEventByClientId = async (req, res) => {
+  const { clientId } = req.query
+
+  if (!clientId) {
+    throw httpError('clientId is required!')
+  }
+
+  try {
+    const event = await Event.findAll({
+      where: { clientId }
     })
 
     if (event) {
@@ -170,5 +194,6 @@ export {
   getEventById,
   updateEventById,
   deleteEventById,
-  getEventByEventId
+  getEventByEventId,
+  getEventByClientId
 }

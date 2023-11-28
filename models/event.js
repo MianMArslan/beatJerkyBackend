@@ -14,6 +14,8 @@ module.exports = (sequelize, DataTypes) => {
   Event.init(
     {
       artistProfileId: INTEGER,
+      clientId: INTEGER,
+
       eventName: DataTypes.STRING,
       artistName: DataTypes.STRING,
       eventPlace: DataTypes.STRING,

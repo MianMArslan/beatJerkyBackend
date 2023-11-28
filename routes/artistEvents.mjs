@@ -8,13 +8,15 @@ import {
   getEventById,
   updateEventById,
   deleteEventById,
-  getEventByEventId
+  getEventByEventId,
+  getEventByClientId
 } from '../controller/artistEvent.mjs'
 import { uploadArtistEventImg } from '../middleware/multer.mjs'
 
 router.get('/events', getAllEvents)
 router.get('/event/byArtistProfileId', getEventById)
 router.get('/event/byEventId', getEventByEventId)
+router.get('/event/byClientId', getEventByClientId)
 
 router.put(
   '/update-event',
