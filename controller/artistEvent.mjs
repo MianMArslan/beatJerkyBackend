@@ -1,5 +1,6 @@
 import { httpError } from '../common/httpError.mjs'
 import db from '../models/index.js'
+import { deleteFileFromDisk } from '../common/deleteFileFromDisk.mjs'
 
 const { Event } = db
 
