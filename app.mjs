@@ -24,7 +24,9 @@ const corsOptions = {
     'http://localhost:3000',
     'http://localhost:3001',
     'http://localhost:3002',
-    'http://localhost:3003'
+    'http://localhost:3003',
+    'http://www.beatjerky.com/api/',
+    'http://www.beatjerky.com/'
   ]
 }
 app.use(logger('dev'))
