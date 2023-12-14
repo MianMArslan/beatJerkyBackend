@@ -7,10 +7,13 @@ import {
   updateSpecificMusicStyle,
   getAllMusicStyle,
   getAllMusicStyleWithSongs,
-  getAllMusicStyleFromUser
+  getAllMusicStyleFromUser,
+  getMusicStyleById
 } from '../controller/musicStyle.mjs'
 
 router.get('/', verifyAccessToken, getAllMusicStyle)
+router.get('/byId', verifyAccessToken, getMusicStyleById)
+
 router.get('/getAllMusicStylesWithSongs', getAllMusicStyleWithSongs)
 router.get('/all', getAllMusicStyleFromUser)
 

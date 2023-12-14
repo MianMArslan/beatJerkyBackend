@@ -85,6 +85,16 @@ const getAllMusicStyle = async (req, res) => {
     res.status(500).json({ error: 'Failed to get musicStyle' })
   }
 }
+const getMusicStyleById = async (req, res) => {
+  try {
+    // Logic to get all musicStyle from the database
+    const data = await musicStyle.findOne({ where: { id: req.query.id } })
+
+    res.status(200).json({ data })
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to get musicStyle' })
+  }
+}
 
 const getAllMusicStyleWithSongs = async (req, res) => {
   try {
@@ -109,5 +119,6 @@ export {
   updateSpecificMusicStyle,
   getAllMusicStyle,
   getAllMusicStyleWithSongs,
-  getAllMusicStyleFromUser
+  getAllMusicStyleFromUser,
+  getMusicStyleById
 }
