@@ -13,9 +13,9 @@ import {
 import { upload } from '../middleware/multer.mjs'
 import { coverPhotoUpload } from '../middleware/coverPhotoUploadMulter.mjs'
 
-router.get('/', verifyAccessToken, getAllSongs)
-router.put('/:id', verifyAccessToken, updateSong)
-router.post('/', verifyAccessToken, upload.single('file'), addSong)
+router.get('/', getAllSongs)
+router.put('/:id', updateSong)
+router.post('/', upload.single('file'), addSong)
 router.post(
   '/addCoverImage/:id',
   verifyAccessToken,
