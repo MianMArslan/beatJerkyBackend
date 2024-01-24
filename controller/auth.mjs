@@ -33,7 +33,9 @@ async function signup(req, res) {
       const message = 'Your account has been created successfully!'
       return res.status(200).success({ status, message })
     } else {
-      return httpError('Email Is already Exist!')
+      return httpError(
+        'Email Is already Exist please contact support if you need any assistance!'
+      )
     }
   } catch (error) {
     await t.rollback()
