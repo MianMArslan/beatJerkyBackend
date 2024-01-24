@@ -13,6 +13,6 @@ router.get('/', getUser)
 router.get('/getAdminUser', getAdminUser)
 router.get('/current', getCurrentUser)
 router.put('/profileImg', uploadProfile.single('file'), updateUserProfile)
-router.put('/:id', updateIsDeleted)
+router.delete('/', updateIsDeleted)
 
 export default router
