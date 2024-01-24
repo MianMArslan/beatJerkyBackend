@@ -48,7 +48,7 @@ async function login(req, res) {
   try {
     let hashPassword = await bcrypt.hash(password, process.env.SALT)
     const record = await user.findOne({
-      where: { email: email, password: hashPassword, isAdmin }
+      where: { email: email, password: hashPassword, isAdmin, isDeleted: 0 }
     })
     if (!record)
       return res.fail({ error: { message: 'Email or password is invalid!' } })
@@ -85,6 +85,8 @@ async function forgotPassword(req, res) {
   const verify = await user.findOne({ where: { email } })
   if (!verify) {
     return httpError('Email is not exist in system!')
+  } else if (verify?.isDeleted == 1) {
+    return httpError('This account has been deleted!')
   } else {
     const token = getToken(email)
     const to = `${email}`
