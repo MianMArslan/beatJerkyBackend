@@ -1,6 +1,7 @@
+import { Op } from 'sequelize'
 import { httpError } from '../common/httpError.mjs'
 import db from '../models/index.js'
-const { userFeed, user, feedLike, feedComment, stores } = db
+const { userFeed, user, feedLike, feedComment, stores, blockedUsers } = db
 
 async function createUserFeed(req, res) {
   try {
@@ -120,7 +121,59 @@ async function getAllUserFeed(req, res) {
     return httpError(error.message)
   }
 }
+async function getAllUserFeedByClientId(req, res) {
+  const { userId } = req.query
+  if (!userId) {
+    res.status(400).json({ error: 'userId  is required' })
+    return
+  }
 
+  try {
+    const blockedList = await blockedUsers.findAll({
+      attributes: ['blockedUserId'],
+      where: {
+        userId
+      }
+    })
+    const blockedUserIds = blockedList.map((item) => item.blockedUserId)
+
+    // return res.success({ data: [...blockedList, userId] })
+
+    const { limit, offset } = req.query
+    let object = {
+      where: {
+        userId: {
+          [Op.notIn]: blockedUserIds
+        },
+        isDeleted: false
+      },
+      order: [['createdAt', 'DESC']],
+      include: [
+        {
+          model: user,
+          attributes: ['firstName', 'lastName', 'profileImg']
+        },
+        { model: feedLike },
+        { model: feedComment }
+      ]
+    }
+
+    if (object.include && object.include.length > 0) {
+      object.include.push({
+        model: stores,
+        attributes: ['storeName', 'storeDescription', 'storeImage']
+      })
+    }
+
+    if (limit) object.limit = Number(limit)
+    if (offset || offset == 0) object.offset = Number(offset)
+
+    let records = await userFeed.findAll(object)
+    return res.success({ data: records })
+  } catch (error) {
+    return httpError(error.message)
+  }
+}
 async function deleteUserFeed(req, res) {
   try {
     const { feedId, userId } = req.query
@@ -141,5 +194,6 @@ export {
   getUserFeed,
   deleteUserFeed,
   getStoreFeed,
-  deleteStoreFeed
+  deleteStoreFeed,
+  getAllUserFeedByClientId
 }

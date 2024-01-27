@@ -1,8 +1,32 @@
 import db from '../models/index.js'
 import { httpError } from '../common/httpError.mjs'
 import { deleteFileFromDisk } from '../common/deleteFileFromDisk.mjs'
-const { user, Sequelize } = db
+const { user, Sequelize, blockedUsers } = db
 const Op = Sequelize.Op
+
+async function blockUser(req, res) {
+  try {
+    const { userId, blockedUserId } = req.body
+    if (!userId && !blockedUserId) {
+      res.status(400).json({ error: 'userId & blockedUserId is required' })
+    }
+    await blockedUsers.create({ userId, blockedUserId })
+    res.status(200).success({ message: 'successfully blocked' })
+  } catch (error) {
+    console.log('🚀 ~ blockUser ~ error:', error)
+    res.status(500).json({ error: 'Failed to block user' })
+  }
+}
+async function unblockUser(req, res) {
+  try {
+    const { userId, blockedUserId } = req.body
+    await blockedUsers.destroy({ where: { userId, blockedUserId } })
+    res.status(200).success({ message: 'successfully unblocked' })
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to unblock user' })
+  }
+}
+
 async function getAdminUser(req, res) {
   try {
     const response = await user.findAll({
@@ -99,5 +123,7 @@ export {
   updateUserProfile,
   updateIsDeleted,
   getCurrentUser,
-  getAdminUser
+  getAdminUser,
+  blockUser,
+  unblockUser
 }

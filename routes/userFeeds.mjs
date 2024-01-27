@@ -7,10 +7,13 @@ import {
   getUserFeed,
   deleteUserFeed,
   getStoreFeed,
-  deleteStoreFeed
+  deleteStoreFeed,
+  getAllUserFeedByClientId
 } from '../controller/userFeeds.mjs'
 
 router.get('/', getUserFeed)
+
+router.get('/user-feed-by-client-id', getAllUserFeedByClientId)
 router.get('/all', getAllUserFeed)
 router.get('/storeFeed', getStoreFeed)
 router.post('/', uploadFeed.single('feed'), createUserFeed)

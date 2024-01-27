@@ -6,10 +6,15 @@ import {
   updateIsDeleted,
   updateUserProfile,
   getCurrentUser,
-  getAdminUser
+  getAdminUser,
+  blockUser,
+  unblockUser
 } from '../controller/users.mjs'
 
 router.get('/', getUser)
+router.post('/block-user', blockUser)
+router.delete('/unblock-user', unblockUser)
+
 router.get('/getAdminUser', getAdminUser)
 router.get('/current', getCurrentUser)
 router.put('/profileImg', uploadProfile.single('file'), updateUserProfile)
