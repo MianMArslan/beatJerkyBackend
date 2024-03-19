@@ -8,16 +8,20 @@ import {
   getCurrentUser,
   getAdminUser,
   blockUser,
-  unblockUser
+  unblockUser,
+  getProfile,
+  updateProfile
 } from '../controller/users.mjs'
 
 router.get('/', getUser)
+router.get('/profile', getProfile)
 router.post('/block-user', blockUser)
 router.delete('/unblock-user', unblockUser)
 
 router.get('/getAdminUser', getAdminUser)
 router.get('/current', getCurrentUser)
 router.put('/profileImg', uploadProfile.single('file'), updateUserProfile)
+router.put('/profile', updateProfile)
 router.delete('/', updateIsDeleted)
 
 export default router

@@ -22,6 +22,7 @@ import checkout from './checkout.mjs'
 import artistProfile from './artistProfile.mjs'
 import artistSongs from './artistSongs.mjs'
 import events from './artistEvents.mjs'
+import notification from './notification.mjs'
 
 function setRoutes(app) {
   app.use('/auth', auth)
@@ -48,6 +49,7 @@ function setRoutes(app) {
   app.use('/artist-profile', artistProfile)
   app.use('/artist-songs', artistSongs)
   app.use('/artist-events', events)
+  app.use('/notification', notification)
 }
 
 export default setRoutes

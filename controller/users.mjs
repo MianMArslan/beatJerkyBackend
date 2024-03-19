@@ -105,6 +105,30 @@ async function updateUserProfile(req, res) {
   }
 }
 
+async function updateProfile(req, res) {
+  try {
+    const { userId, firstName, lastName } = req.body
+    let object = {}
+    if (firstName) object.firstName = firstName
+    if (lastName) object.lastName = lastName
+    if (!userId) throw httpError('userId is required!')
+    let users = await user.update(object, { where: { id: userId } })
+    return res.success({ data: users })
+  } catch (error) {
+    return httpError(error.message)
+  }
+}
+
+async function getProfile(req, res) {
+  try {
+    const { userId } = req.query
+    if (!userId) throw httpError('userId is required!')
+    let users = await user.findOne({ where: { id: userId } })
+    return res.success({ data: users })
+  } catch (error) {
+    return httpError(error.message)
+  }
+}
 async function getCurrentUser(req, res) {
   try {
     const { userId } = req.query
@@ -125,5 +149,7 @@ export {
   getCurrentUser,
   getAdminUser,
   blockUser,
-  unblockUser
+  unblockUser,
+  getProfile,
+  updateProfile
 }

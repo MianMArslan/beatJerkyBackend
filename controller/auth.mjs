@@ -135,8 +135,9 @@ async function resetPassword(req, res) {
 }
 
 const changePassword = async (req, res) => {
-  const { currentPassword, newPassword } = req.body
-  const userId = req.user.userId
+  const { currentPassword, newPassword, userId } = req.body
+
+  if (!userId) throw httpError('userId is required!')
 
   try {
     // Find the user by ID
@@ -155,25 +156,22 @@ const changePassword = async (req, res) => {
     const hashedPassword = await bcrypt.hash(newPassword, process.env.SALT)
 
     // Update the currentUser's password
-    const a = await user.update(
-      { password: hashedPassword },
-      { where: { id: userId } }
-    )
+    await user.update({ password: hashedPassword }, { where: { id: userId } })
     // Generate a new JWT token with updated user data
-    const userData = {
-      userId: req.user.userId,
-      firstName: req.user.firstName,
-      lastName: req.user.lastName,
-      email: req.user.email,
-      admin: req.user.isAdmin
-    }
-    const token = await accessToken(userData)
-    res.cookie('accessToken', token)
+    // const userData = {
+    //   userId: req.user.userId,
+    //   firstName: req.user.firstName,
+    //   lastName: req.user.lastName,
+    //   email: req.user.email,
+    //   admin: req.user.isAdmin
+    // }
+    // const token = await accessToken(userData)
+    // res.cookie('accessToken', token)
 
     return res.success({
       status: 200,
-      message: 'Successfully Change Password!',
-      data: userData
+      message: 'Successfully Change Password!'
+      // data: userData
     })
   } catch (error) {
     res
