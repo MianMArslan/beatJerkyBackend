@@ -10,7 +10,9 @@ import {
   blockUser,
   unblockUser,
   getProfile,
-  updateProfile
+  updateProfile,
+  updateDeviceId,
+  removeDeviceId
 } from '../controller/users.mjs'
 
 router.get('/', getUser)
@@ -22,6 +24,8 @@ router.get('/getAdminUser', getAdminUser)
 router.get('/current', getCurrentUser)
 router.put('/profileImg', uploadProfile.single('file'), updateUserProfile)
 router.put('/profile', updateProfile)
+router.put('/addDevice', updateDeviceId)
+router.put('/removeDevice', removeDeviceId)
 router.delete('/', updateIsDeleted)
 
 export default router

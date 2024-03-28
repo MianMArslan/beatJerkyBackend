@@ -60,7 +60,8 @@ async function login(req, res) {
       firstName: record.firstName,
       lastName: record.lastName,
       email: record.email,
-      admin: record.isAdmin
+      admin: record.isAdmin,
+      deviceId: record.deviceId
     }
 
     const token = await accessToken(userData)
@@ -117,6 +118,7 @@ async function resetPassword(req, res) {
   const { token, password } = req.body
   const decode = jwtDecode(token)
   try {
+    console.log(decode)
     const hashPassword = await bcrypt.hash(password, process.env.SALT)
     const verify = await user.update(
       { password: hashPassword },

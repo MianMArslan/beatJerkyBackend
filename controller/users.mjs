@@ -118,7 +118,30 @@ async function updateProfile(req, res) {
     return httpError(error.message)
   }
 }
-
+async function updateDeviceId(req, res) {
+  try {
+    const { userId, deviceId } = req.body
+    let object = {}
+    if (deviceId) object.deviceId = deviceId
+    if (!userId) throw httpError('userId is required!')
+    let users = await user.update(object, { where: { id: userId } })
+    return res.success({ data: users })
+  } catch (error) {
+    return httpError(error.message)
+  }
+}
+async function removeDeviceId(req, res) {
+  try {
+    const { userId } = req.body
+    let object = {}
+    object.deviceId = null
+    if (!userId) throw httpError('userId is required!')
+    let users = await user.update(object, { where: { id: userId } })
+    return res.success({ data: users })
+  } catch (error) {
+    return httpError(error.message)
+  }
+}
 async function getProfile(req, res) {
   try {
     const { userId } = req.query
@@ -151,5 +174,7 @@ export {
   blockUser,
   unblockUser,
   getProfile,
-  updateProfile
+  updateProfile,
+  updateDeviceId,
+  removeDeviceId
 }

@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       isAdmin: { type: DataTypes.BOOLEAN, defaultValue: false },
       isDeleted: { type: DataTypes.BOOLEAN, defaultValue: false },
       profileImg: { type: DataTypes.STRING },
+      deviceId: { type: DataTypes.STRING },
       isOnline: { type: DataTypes.BOOLEAN, defaultValue: false },
       lastOnline: { type: DataTypes.DATE }
     },
