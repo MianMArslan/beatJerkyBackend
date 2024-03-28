@@ -165,6 +165,19 @@ async function getCurrentUser(req, res) {
     return httpError(error.message)
   }
 }
+async function getCurrentUserDeviceId(req, res) {
+  try {
+    const { userId } = req.query
+    if (!userId) throw httpError('userId is required!')
+    let users = await user.findOne({
+      where: { id: userId },
+      attributes: ['deviceId']
+    })
+    return res.success({ data: users })
+  } catch (error) {
+    return httpError(error.message)
+  }
+}
 export {
   getUser,
   updateUserProfile,
@@ -176,5 +189,6 @@ export {
   getProfile,
   updateProfile,
   updateDeviceId,
-  removeDeviceId
+  removeDeviceId,
+  getCurrentUserDeviceId
 }

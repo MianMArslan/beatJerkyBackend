@@ -12,10 +12,12 @@ import {
   getProfile,
   updateProfile,
   updateDeviceId,
-  removeDeviceId
+  removeDeviceId,
+  getCurrentUserDeviceId
 } from '../controller/users.mjs'
 
 router.get('/', getUser)
+router.get('/deviceId', getCurrentUserDeviceId)
 router.get('/profile', getProfile)
 router.post('/block-user', blockUser)
 router.delete('/unblock-user', unblockUser)

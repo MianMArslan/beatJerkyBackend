@@ -11,10 +11,11 @@ import path from 'path'
 const { user, sequelize } = db
 
 async function signup(req, res) {
-  const { firstName, lastName, email, password } = req.body
+  const { firstName, lastName, email, password, deviceId } = req.body
   let hashPassword
   const t = await sequelize.transaction()
   try {
+    if (!deviceId) return httpError('DeviceId is required')
     const checker = await user.findOne({ where: { email } })
     if (_.isEmpty(checker)) {
       hashPassword = await bcrypt.hash(password, process.env.SALT)
@@ -24,7 +25,8 @@ async function signup(req, res) {
           lastName,
           email,
           password: hashPassword,
-          isAdmin: false
+          isAdmin: false,
+          deviceId
         },
         { transaction: t }
       )
@@ -44,8 +46,8 @@ async function signup(req, res) {
 }
 
 async function login(req, res) {
-  const { email, password, isAdmin } = req.body
-
+  const { email, password, isAdmin, deviceId } = req.body
+  if (!deviceId) return httpError('DeviceId is required')
   let userData = {}
   try {
     let hashPassword = await bcrypt.hash(password, process.env.SALT)
@@ -61,13 +63,13 @@ async function login(req, res) {
       lastName: record.lastName,
       email: record.email,
       admin: record.isAdmin,
-      deviceId: record.deviceId
+      deviceId
     }
 
     const token = await accessToken(userData)
     res.cookie('accessToken', token)
     await user.update(
-      { lastOnline: new Date(), isOnline: true },
+      { lastOnline: new Date(), isOnline: true, deviceId },
       {
         where: { email: email, password: hashPassword, isAdmin }
       }
@@ -188,7 +190,7 @@ async function logout(req, res) {
     res.clearCookie('accessToken')
 
     await user.update(
-      { isOnline: false },
+      { isOnline: false, deviceId: null },
       {
         where: { id: userId }
       }
@@ -197,7 +199,7 @@ async function logout(req, res) {
     return res.success({
       status: 200,
       message: 'Successfully logout!',
-      data: userData
+      data: true
     })
   } catch (error) {
     return res.error({ error })
